@@ -1,6 +1,6 @@
 # Example ERC721 token API
 
-This example shows how to create a GraphQL API for an ERC721 token using Ponder. It uses the Smol Brains NFT contract on Arbitrum ([Link](https://arbiscan.io/address/0x6325439389E0797Ab35752B4F43a14C004f22A9c)).
+This example shows how to create a GraphQL API for an ERC721 token using Ponder. It uses ERC721 ABI, but you need to add configuration of deployment chain as well as AWS to an ".env.local" file
 
 ## Sample queries
 
@@ -17,19 +17,3 @@ This example shows how to create a GraphQL API for an ERC721 token using Ponder.
 }
 ```
 
-### Get the current owner and all transfer events for a token
-
-```graphql
-{
-  token(id: "7777") {
-    owner {
-      id
-    }
-    transferEvents {
-      from
-      to
-      timestamp
-    }
-  }
-}
-```
