@@ -1,8 +1,18 @@
 import { ponder } from "@/generated";
+import { Axios } from "axios";
+import AWS from 'aws-sdk';
 
-ponder.on("ERC721:Transfer", async ({ event, context }) => {
+const s3 = new AWS.S3({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
+
+ponder.on("ITSE:Transfer", async ({ event, context }) => {
   const { Account, Token, TransferEvent } = context.db;
-
+  console.log("caught a transfer")
   // Create an Account for the sender, or update the balance if it already exists.
   await Account.upsert({
     id: event.args.from,
@@ -33,5 +43,18 @@ ponder.on("ERC721:Transfer", async ({ event, context }) => {
       tokenId: event.args.id,
       timestamp: Number(event.block.timestamp),
     },
+  });
+
+  console.log("now calling api")
+
+  const key = "superadmin@isdb.com"
+  const bucketName = 'isdb';
+  const uploadParams = { Bucket: bucketName, Key: String(key) }
+
+  s3.getObject(uploadParams, function (err, data) {
+    if (err) {
+      return err
+    }
+      console.log(data.Body,"found something")
   });
 });

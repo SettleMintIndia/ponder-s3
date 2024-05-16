@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@ponder/core": "^0.4.24",
+    "aws-sdk": "^2.1620.0",
+    "axios": "^1.6.8",
     "viem": "^1.19.9"
   },
   "devDependencies": {
